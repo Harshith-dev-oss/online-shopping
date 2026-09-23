@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Products | ShopNest{% endblock %}
+
+{% block content %}
+<section class="container section">
+  <div class="section-header">
+    <h2>All products</h2>
+  </div>
+
+  <div class="product-grid">
+    {% for product in products %}
+      <article class="product-card">
+        <img src="{{ product.image }}" alt="{{ product.name }}" />
+        <div class="product-content">
+          <div class="meta-row">
+            <span class="badge">{{ product.category }}</span>
+            <span class="price">${{ '%.2f' % product.price }}</span>
+          </div>
+          <h3>{{ product.name }}</h3>
+          <p>{{ product.description }}</p>
+          <div class="card-actions">
+            <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn btn-light">Details</a>
+            <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post">
+              <button type="submit" class="btn btn-primary">Add to cart</button>
+            </form>
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

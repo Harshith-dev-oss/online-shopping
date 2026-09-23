@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Home | ShopNest{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">New Season</span>
+      <h1>Simple shopping for everyday essentials.</h1>
+      <p>Discover modern products with clean design, trusted quality, and a smooth checkout experience.</p>
+      <div class="hero-actions">
+        <a href="{{ url_for('products_page') }}" class="btn btn-primary">Shop now</a>
+        <a href="{{ url_for('cart') }}" class="btn btn-secondary">View cart</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80" alt="Shopping lifestyle" />
+    </div>
+  </div>
+</section>
+
+<section class="container section">
+  <div class="section-header">
+    <h2>Popular picks</h2>
+    <a href="{{ url_for('products_page') }}" class="text-link">Browse all products</a>
+  </div>
+
+  <div class="product-grid">
+    {% for product in featured %}
+      <article class="product-card">
+        <img src="{{ product.image }}" alt="{{ product.name }}" />
+        <div class="product-content">
+          <div class="meta-row">
+            <span class="badge">{{ product.category }}</span>
+            <span class="price">${{ '%.2f' % product.price }}</span>
+          </div>
+          <h3>{{ product.name }}</h3>
+          <p>{{ product.description[:80] }}...</p>
+          <div class="card-actions">
+            <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn btn-light">View</a>
+            <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post">
+              <button type="submit" class="btn btn-primary">Add to cart</button>
+            </form>
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
